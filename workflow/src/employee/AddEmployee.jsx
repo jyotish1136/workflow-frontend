@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useEmp } from "../store/employee-store";
+import { useEmp } from "../store/emp-store";
 
 const AddEmployee = () => {
   const [formData, setFormData] = useState({

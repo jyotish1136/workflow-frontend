@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { RiArrowDropDownLine } from "react-icons/ri";
-import { useAuth } from "../auth-store/authentication";
+import { useAuth } from "../store/auth-store";
 const Profile = () => {
   const { authorized, logout } = useAuth();
   const [isOpen, setIsOpen] = useState(false);

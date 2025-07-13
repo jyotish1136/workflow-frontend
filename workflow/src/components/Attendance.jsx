@@ -28,11 +28,11 @@ const Attendance = () => {
   return (
     <div className="w-full min-h-screen bg-blue-50 px-10 py-16">
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold text-gray-700 flex items-center gap-2">
+        <h1 className="text-2xl font-bold text-blue-500 flex items-center gap-2">
           <FaUserCheck className="text-blue-500" />
           Attendance Records
         </h1>
-        <button className="bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700">
+        <button className="bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700">
           Mark Attendance
         </button>
       </div>

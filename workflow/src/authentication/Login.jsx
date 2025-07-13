@@ -2,7 +2,7 @@ import SignUpButton from "../components/SignUpButton";
 import Contact from "../components/Contact";
 import DarkLogo from "../components/DarkLogo";
 import { useState } from "react";
-import { useAuth } from "../auth-store/authentication";
+import { useAuth } from "../store/auth-store";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {

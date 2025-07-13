@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { BsPersonAdd } from "react-icons/bs";
 import { FaRegEdit } from "react-icons/fa";
-import SearchBox from "./SearchBox";
+import SearchBox from "../components/SearchBox";
 import { AiOutlineDelete } from "react-icons/ai";
-import { Link } from "react-router-dom";
-import { useEmp } from "../store/employee-store";
+import { Link, Outlet } from "react-router-dom";
+import { useEmp } from "../store/emp-store";
 import EditEmployee from "./EditEmployee";
 
 const Employees = () => {
@@ -34,7 +34,7 @@ const Employees = () => {
 
   return (
     <>
-      {/* Show EditEmployee modal if editing */}
+      <Outlet />
       {editingEmployee && (
         <EditEmployee employee={editingEmployee} onClose={closeEditForm} />
       )}

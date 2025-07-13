@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import axiosInstance from "../api/axiosInstance";
-import { useAuth } from "../auth-store/authentication";
+import { useAuth } from "./auth-store.jsx";
 
 const EmployeeContext = createContext({
   employee: [],

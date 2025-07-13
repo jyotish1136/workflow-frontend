@@ -3,7 +3,7 @@ import LoginButton from "../components/LoginButton";
 import DarkLogo from "../components/DarkLogo";
 import { HiOutlineMail } from "react-icons/hi";
 import { useState } from "react";
-import { useAuth } from "../auth-store/authentication";
+import { useAuth } from "../store/auth-store";
 
 const SignUp = () => {
   const { signup } = useAuth();

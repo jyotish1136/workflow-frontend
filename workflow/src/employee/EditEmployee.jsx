@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useEmp } from "../store/employee-store";
+import { useEmp } from "../store/emp-store";
 
 const EditEmployee = ({ employee, onClose }) => {
   const { updateEmployee } = useEmp();

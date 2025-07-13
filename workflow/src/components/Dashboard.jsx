@@ -3,7 +3,7 @@ import { FaArrowDown, FaArrowUp, FaTasks } from "react-icons/fa";
 import { PiStudentFill } from "react-icons/pi";
 import Calendar from "./Calendar";
 import BarChart from "./BarChart";
-import { useEmp } from "../store/employee-store";
+import { useEmp } from "../store/emp-store";
 const Dashboard = () => {
   const { employee } = useEmp();
   return (

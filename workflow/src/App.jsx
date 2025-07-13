@@ -1,21 +1,19 @@
 import "./App.css";
-import AuthProvider, { useAuth } from "./auth-store/authentication";
-import AddEmployee from "./components/AddEmployee";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { useAuth } from "./store/auth-store";
 import Dashboard from "./components/Dashboard";
-import Employees from "./components/Employees";
-import Login from "./components/Login";
 import NoPageFound from "./components/NoPageFound";
 import Sidebar from "./components/Sidebar";
-import SignUp from "./components/SignUp";
-import Tasks from "./components/Tasks";
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import EmployeeProvider from "./store/employee-store";
-import ProtectedRoute from "./components/ProtectedRoute";
-import AddTask from "./components/AddTask";
 import Attendance from "./components/Attendance";
+import Tasks from "./tasks/Tasks";
+import AddTask from "./tasks/AddTask";
+import Login from "./authentication/Login";
+import SignUp from "./authentication/SignUp";
 import Settings from "./components/Settings";
-import EmployeeEditForm from "./components/EditEmployee";
-
+import ProtectedRoute from "./authentication/ProtectedRoute";
+import Employees from "./employee/Employees";
+import EditEmployee from "./employee/EditEmployee";
+import AddEmployee from "./employee/AddEmployee";
 function App() {
   const { authorized } = useAuth();
   return (
@@ -86,7 +84,7 @@ function App() {
               path="edit-employee"
               element={
                 <ProtectedRoute>
-                  <EmployeeEditForm />
+                  <EditEmployee />
                 </ProtectedRoute>
               }
             />

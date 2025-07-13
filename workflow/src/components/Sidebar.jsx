@@ -6,7 +6,7 @@ import { RiArrowDropDownLine } from "react-icons/ri";
 import SearchBox from "../components/SearchBox";
 import Logo from "../components/Logo";
 import { NavLink } from "react-router-dom";
-import { useAuth } from "../auth-store/authentication";
+import { useAuth } from "../store/auth-store";
 import Profile from "./Profile";
 const Sidebar = () => {
   const { authorized, logout } = useAuth();

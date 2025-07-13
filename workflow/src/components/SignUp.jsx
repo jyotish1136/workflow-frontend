@@ -49,7 +49,7 @@ const SignUp = () => {
     <div className="min-h-screen w-screen flex flex-col fixed inset-0 bg-blue backdrop-blur-[3px] z-40">
       <div className="w-7/12 min-h-2/3 bg-white border-0 rounded-2xl flex flex-col m-auto">
         <DarkLogo />
-        <div className="w-full flex justify-center items-center gap-6 mt-6">
+        <div className="w-full flex justify-center items-center gap-6 mt-6 mb-6">
           <form
             onSubmit={handleSubmit}
             className="h-4/5 bg-white font-sans flex justify-center items-center flex-col gap-4"
@@ -146,7 +146,7 @@ const SignUp = () => {
 
             <button
               type="submit"
-              className="mt-4 flex justify-center items-center gap-2 border-0 px-3 h-[38px] font-medium rounded-[8px] bg-blue-500 text-white cursor-pointer"
+              className="mt-4 flex justify-center items-center gap-2 border-0 p-3 h-[38px] font-medium rounded-[8px] bg-blue-500 text-white cursor-pointer"
             >
               <HiOutlineMail />
               <span className="pb-1">Sign Up with email</span>

@@ -28,7 +28,7 @@ const Profile = () => {
         <div className="absolute right-0 mt-2 bg-white shadow-lg rounded-lg z-10 w-40 text-black">
           <button
             onClick={logout}
-            className="block w-full text-left px-4 py-2 hover:bg-red-100 text-red-600"
+            className="w-full text-left px-4 py-2 text-red-600  flex justify-center items-center hover:cursor-pointer"
           >
             Logout
           </button>

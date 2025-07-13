@@ -6,7 +6,7 @@ const SignUpButton = () => {
     <Link
       to="signup"
       type="button"
-      className="flex justify-center items-center gap-2 border-0 px-3 h-[38px] font-medium rounded-[8px] bg-blue-500 text-white cursor-pointer"
+      className="flex justify-center items-center gap-2 border-0 px-3 h-[38px] font-medium rounded-[8px] bg-blue-500 text-white hover:cursor-pointer"
     >
       <HiOutlineMail />
       <span className="pb-1">Sign Up with email</span>

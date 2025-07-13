@@ -14,7 +14,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 function App() {
   const { authorized } = useAuth();
   return (
-    <div className="w-full h-full flex bg-blue-200">
+    <div className="w-full min-h-screen flex bg-blue-200">
       <Router>
         <Sidebar />
         <Routes>

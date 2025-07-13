@@ -9,7 +9,11 @@ const Employees = () => {
   const { employee, deleteEmployee } = useEmp();
   const [emp, setEmp] = useState([]);
   useEffect(() => {
-    setEmp(employee);
+    if (Array.isArray(employee)) {
+      setEmp(employee);
+    } else {
+      setEmp([]);
+    }
   }, [employee]);
   const handleDelete = async (id) => {
     const res = await deleteEmployee(id);
@@ -52,9 +56,9 @@ const Employees = () => {
             <p>Actions</p>
           </div>
 
-          {emp.map((x, i) => (
+          {emp.map((x) => (
             <div
-              key={i}
+              key={x.id}
               className="grid grid-cols-6 gap-4 items-center text-gray-900 mb-2"
             >
               <p>{x.name}</p>

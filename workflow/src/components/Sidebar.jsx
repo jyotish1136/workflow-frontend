@@ -6,9 +6,12 @@ import { RiArrowDropDownLine } from "react-icons/ri";
 import SearchBox from "../components/SearchBox";
 import Logo from "../components/Logo";
 import { NavLink } from "react-router-dom";
+import { useAuth } from "../auth-store/authentication";
+import Profile from "./Profile";
 const Sidebar = () => {
+  const { authorized, logout } = useAuth();
   return (
-    <div className="w-[252px] min-h-screen bg-blue-500">
+    <div className="w-[252px] min-h-fit bg-blue-500">
       <div className="flex justify-center flex-wrap">
         <Logo />
         <div className="mt-14">
@@ -86,22 +89,7 @@ const Sidebar = () => {
           </NavLink>
         </div>
       </div>
-      <div className="flex justify-evenly items-center mt-56 h-15 ml-5 w-[216px] text-white">
-        <div>
-          <img
-            className="w-[42px] rounded-full"
-            src="image.png"
-            alt="profile-pic"
-          />
-        </div>
-        <div>
-          <p className="font-semibold">Tom Jerry</p>
-          <p className="font-light">Team Manager</p>
-        </div>
-        <div className="font-semibold text-4xl">
-          <RiArrowDropDownLine />
-        </div>
-      </div>
+      <Profile />
     </div>
   );
 };

@@ -56,6 +56,7 @@ const AuthProvider = ({ children }) => {
   const logout = () => {
     setJwtToken(null);
     setAuthorized(false);
+    localStorage.removeItem("jwtToken");
   };
   return (
     <AuthContext.Provider

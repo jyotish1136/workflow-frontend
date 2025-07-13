@@ -32,9 +32,9 @@ const AddEmployee = () => {
   return (
     <div className="h-screen w-screen flex flex-col fixed inset-0 bg-blue backdrop-blur-[3px] z-40">
       <div className="w-1/2 h-2/3 bg-gray-100 border-0 rounded-2xl flex m-auto">
-        <div className="h-30 relative bottom-0 mt-4">
+        {/* <div className="h-30 relative bottom-0 mt-4">
           <img src="employee.svg" alt="employee" className="h-80 " />
-        </div>
+        </div> */}
         <form
           onSubmit={handleSubmit}
           className="flex justify-evenly items-center flex-col gap-6 bg-white w-3/5 m-auto h-4/5 border-0 rounded-2xl"

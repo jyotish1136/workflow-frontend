@@ -7,9 +7,13 @@ import Login from "./components/Login";
 import NoPageFound from "./components/NoPageFound";
 import Sidebar from "./components/Sidebar";
 import SignUp from "./components/SignUp";
+import Tasks from "./components/Tasks";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import EmployeeProvider from "./store/employee-store";
 import ProtectedRoute from "./components/ProtectedRoute";
+import AddTask from "./components/AddTask";
+import Attendance from "./components/Attendance";
+import Settings from "./components/Settings";
 
 function App() {
   const { authorized } = useAuth();
@@ -28,6 +32,39 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/attendance"
+            element={
+              <ProtectedRoute>
+                <Attendance />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/settings"
+            element={
+              <ProtectedRoute>
+                <Settings />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/tasks"
+            element={
+              <ProtectedRoute>
+                <Tasks />
+              </ProtectedRoute>
+            }
+          >
+            <Route
+              path="add-task"
+              element={
+                <ProtectedRoute>
+                  <AddTask />
+                </ProtectedRoute>
+              }
+            />
+          </Route>
           <Route
             path="/employees"
             element={

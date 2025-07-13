@@ -47,7 +47,7 @@ const Sidebar = () => {
           </NavLink>
 
           <NavLink
-            to="attendence"
+            to="attendance"
             className={({ isActive }) =>
               `w-[252px] h-[38px] flex items-center text-white font-semibold font-sans pl-10 ${
                 isActive && "bg-blue-400 border-l-[3px] border-white"
@@ -56,7 +56,7 @@ const Sidebar = () => {
           >
             <FaRegCalendarAlt className="mr-2 text-[24px]" />
             <p className="text-[16px]" href="#">
-              Attendence
+              Attendance
             </p>
           </NavLink>
 

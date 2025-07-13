@@ -3,7 +3,9 @@ import { FaArrowDown, FaArrowUp, FaTasks } from "react-icons/fa";
 import { PiStudentFill } from "react-icons/pi";
 import Calendar from "./Calendar";
 import BarChart from "./BarChart";
+import { useEmp } from "../store/employee-store";
 const Dashboard = () => {
+  const { employee } = useEmp();
   return (
     <div className="w-full flex flex-col items-center bg-blue-200 ">
       <div className="h-1/4 flex gap-6 mt-14">
@@ -12,7 +14,9 @@ const Dashboard = () => {
             <p className="text-[16px] text-gray-500 font-sans">
               Total Employee
             </p>
-            <p className="text-5xl text-blue-500 font-bold font-sans">442</p>
+            <p className="text-5xl text-blue-500 font-bold font-sans">
+              {employee.length}
+            </p>
             <div className="flex gap-2 text-green-500 items-center">
               <FaArrowUp className="text-2xl" />
               <p className="font-sans">12% from last month</p>

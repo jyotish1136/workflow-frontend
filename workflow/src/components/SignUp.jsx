@@ -4,8 +4,11 @@ import DarkLogo from "../components/DarkLogo";
 import { HiOutlineMail } from "react-icons/hi";
 import { useState } from "react";
 import { useAuth } from "../auth-store/authentication";
+
 const SignUp = () => {
   const { signup } = useAuth();
+  const [emailError, setEmailError] = useState("");
+
   const [formData, setFormData] = useState({
     email: "",
     firstPassword: "",
@@ -14,8 +17,21 @@ const SignUp = () => {
     acceptedTerms: false,
   });
 
+  const validateEmail = (email) => {
+    const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return pattern.test(email);
+  };
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
+
+    if (name === "email") {
+      if (!validateEmail(value)) {
+        setEmailError("Please enter a valid email.");
+      } else {
+        setEmailError("");
+      }
+    }
 
     setFormData((prev) => ({
       ...prev,
@@ -25,26 +41,37 @@ const SignUp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!formData.email || !formData.password || !formData.role) {
       alert("Please fill all required fields.");
       return;
     }
+
+    if (!validateEmail(formData.email)) {
+      setEmailError("Please enter a valid email.");
+      return;
+    }
+
     if (!formData.acceptedTerms) {
       alert("Please accept terms and conditions.");
       return;
     }
+
     if (formData.firstPassword !== formData.password) {
-      alert("Please enter same password as above.");
+      alert("Passwords do not match.");
       return;
     }
+
     const res = await signup(
       formData.email,
       formData.password,
       formData.role,
       formData.acceptedTerms
     );
+
     console.log("Form submitted:", formData);
   };
+
   return (
     <div className="min-h-screen w-screen flex flex-col fixed inset-0 bg-blue backdrop-blur-[3px] z-40">
       <div className="w-7/12 min-h-2/3 bg-white border-0 rounded-2xl flex flex-col m-auto">
@@ -57,13 +84,16 @@ const SignUp = () => {
             <div className="flex flex-col gap-4">
               <section>Email</section>
               <input
-                type="text"
+                type="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
                 className="w-96 h-8 pl-3 border-2 border-gray-400 rounded-[6px] mt-1"
                 placeholder="Email"
               />
+              {emailError && (
+                <span className="text-red-500 text-sm">{emailError}</span>
+              )}
 
               <section>Password</section>
               <input
@@ -81,48 +111,31 @@ const SignUp = () => {
                 value={formData.password}
                 onChange={handleChange}
                 className="w-96 h-8 pl-3 border-2 border-gray-400 rounded-[6px] mt-1"
-                placeholder="Password"
+                placeholder="Confirm Password"
               />
             </div>
 
             <div className="w-full flex justify-between items-center mt-4 px-6">
               <section className="text-gray-700 font-semibold">Role</section>
               <div className="flex space-x-4">
-                <label className="flex items-center space-x-1 cursor-pointer">
-                  <input
-                    type="radio"
-                    name="role"
-                    value="admin"
-                    checked={formData.role === "admin"}
-                    onChange={handleChange}
-                    className="accent-blue-500"
-                  />
-                  <span className="text-gray-700 text-sm">Admin</span>
-                </label>
-
-                <label className="flex items-center space-x-1 cursor-pointer">
-                  <input
-                    type="radio"
-                    name="role"
-                    value="intern"
-                    checked={formData.role === "intern"}
-                    onChange={handleChange}
-                    className="accent-blue-500"
-                  />
-                  <span className="text-gray-700 text-sm">Intern</span>
-                </label>
-
-                <label className="flex items-center space-x-1 cursor-pointer">
-                  <input
-                    type="radio"
-                    name="role"
-                    value="user"
-                    checked={formData.role === "user"}
-                    onChange={handleChange}
-                    className="accent-blue-500"
-                  />
-                  <span className="text-gray-700 text-sm">User</span>
-                </label>
+                {["admin", "intern", "user"].map((role) => (
+                  <label
+                    key={role}
+                    className="flex items-center space-x-1 cursor-pointer"
+                  >
+                    <input
+                      type="radio"
+                      name="role"
+                      value={role}
+                      checked={formData.role === role}
+                      onChange={handleChange}
+                      className="accent-blue-500"
+                    />
+                    <span className="text-gray-700 text-sm capitalize">
+                      {role}
+                    </span>
+                  </label>
+                ))}
               </div>
             </div>
 
@@ -152,6 +165,7 @@ const SignUp = () => {
               <span className="pb-1">Sign Up with email</span>
             </button>
           </form>
+
           <div className="w-[2px] h-full bg-gray-400 border-0 rounded-2xl">
             <div className="w-40 h-40 bg-red-500 rounded-full blur-[100px] opacity-40 z-0 mt-15"></div>
           </div>
@@ -159,7 +173,7 @@ const SignUp = () => {
           <div className="w-2/5 bg-white h-4/5 font-sans flex justify-center items-center flex-col">
             <div className="mt-4 flex justify-between items-center flex-col gap-2">
               <span className="text-gray-400 text-[12px]">
-                Already have a account?
+                Already have an account?
               </span>
               <LoginButton />
             </div>

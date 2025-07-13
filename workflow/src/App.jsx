@@ -14,6 +14,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import AddTask from "./components/AddTask";
 import Attendance from "./components/Attendance";
 import Settings from "./components/Settings";
+import EmployeeEditForm from "./components/EditEmployee";
 
 function App() {
   const { authorized } = useAuth();
@@ -78,6 +79,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <AddEmployee />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="edit-employee"
+              element={
+                <ProtectedRoute>
+                  <EmployeeEditForm />
                 </ProtectedRoute>
               }
             />

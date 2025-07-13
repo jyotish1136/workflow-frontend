@@ -3,11 +3,15 @@ import { BsPersonAdd } from "react-icons/bs";
 import { FaRegEdit } from "react-icons/fa";
 import SearchBox from "./SearchBox";
 import { AiOutlineDelete } from "react-icons/ai";
-import { Link, Outlet } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useEmp } from "../store/employee-store";
+import EditEmployee from "./EditEmployee";
+
 const Employees = () => {
   const { employee, deleteEmployee } = useEmp();
   const [emp, setEmp] = useState([]);
+  const [editingEmployee, setEditingEmployee] = useState(null);
+
   useEffect(() => {
     if (Array.isArray(employee)) {
       setEmp(employee);
@@ -15,13 +19,31 @@ const Employees = () => {
       setEmp([]);
     }
   }, [employee]);
+
   const handleDelete = async (id) => {
-    const res = await deleteEmployee(id);
+    await deleteEmployee(id);
   };
+
+  const handleEdit = (employeeData) => {
+    setEditingEmployee(employeeData);
+  };
+
+  const closeEditForm = () => {
+    setEditingEmployee(null);
+  };
+
   return (
     <>
-      <Outlet />
-      <div className="w-full bg-blue-200 ">
+      {/* Show EditEmployee modal if editing */}
+      {editingEmployee && (
+        <EditEmployee employee={editingEmployee} onClose={closeEditForm} />
+      )}
+
+      <div
+        className={`w-full bg-blue-200 ${
+          editingEmployee ? "blur-sm pointer-events-none" : ""
+        }`}
+      >
         <h1 className="text-2xl font-bold text-blue-500 mt-12 ml-16">
           Employees
         </h1>
@@ -38,7 +60,6 @@ const Employees = () => {
             <p className="text-gray-500">Sort By:</p>
             <select name="" id="">
               <option value="Newest">Newest</option>
-              <option value="Newest">Newest</option>
               <option value="Department">Department</option>
             </select>
           </div>
@@ -46,6 +67,7 @@ const Employees = () => {
             <button type="button">Export</button>
           </div>
         </div>
+
         <div className="w-4/5 m-16 bg-white border-0 rounded-2xl px-8 py-4">
           <div className="grid grid-cols-6 gap-4 text-gray-500 font-semibold mb-2">
             <p>Name</p>
@@ -65,13 +87,22 @@ const Employees = () => {
               <p>{x.email}</p>
               <p>{x.role}</p>
               <p>{x.department}</p>
-              <p className="w-20 border-2 text-gray-900 border-green-300 rounded-[4px] flex items-center justify-center bg-green-100">
-                Active
+              <p
+                className={`w-20 border-2 text-gray-900 rounded-[4px] flex items-center justify-center ${
+                  x.status
+                    ? "border-green-300 bg-green-100"
+                    : "border-red-300 bg-red-100"
+                }`}
+              >
+                {x.status ? "Active" : "Inactive"}
               </p>
               <div className="flex justify-start gap-4 items-center">
-                <FaRegEdit className="w-6 h-6 cursor-pointer" />
+                <FaRegEdit
+                  className="w-6 h-6 cursor-pointer text-blue-600"
+                  onClick={() => handleEdit(x)}
+                />
                 <AiOutlineDelete
-                  className="w-6 h-6 cursor-pointer"
+                  className="w-6 h-6 cursor-pointer text-red-600"
                   onClick={() => handleDelete(x.id)}
                 />
               </div>

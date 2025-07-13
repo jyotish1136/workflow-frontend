@@ -67,8 +67,9 @@ const EmployeeProvider = ({ children }) => {
   const updateEmployee = async (id, updatedEmp) => {
     try {
       const response = await axiosInstance.put(
-        `/employees/${id}`,
+        "/employees",
         {
+          id: id,
           name: updatedEmp.name,
           email: updatedEmp.email,
           role: updatedEmp.role,

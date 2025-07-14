@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [emailError, setEmailError] = useState("");
-
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -54,7 +53,6 @@ const Login = () => {
     } else {
       alert("Login failed");
     }
-    console.log("Form submitted:", formData);
   };
 
   return (

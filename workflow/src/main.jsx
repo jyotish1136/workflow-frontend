@@ -4,12 +4,15 @@ import "./index.css";
 import App from "./App.jsx";
 import AuthProvider from "./store/auth-store.jsx";
 import EmployeeProvider from "./store/emp-store.jsx";
+import TaskProvider from "./store/task-store.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <AuthProvider>
       <EmployeeProvider>
-        <App />
+        <TaskProvider>
+          <App />
+        </TaskProvider>
       </EmployeeProvider>
     </AuthProvider>
   </StrictMode>

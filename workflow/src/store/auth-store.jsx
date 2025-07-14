@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import axiosInstance from "../api/axiosInstance";
+import api from "../api/axiosInstance";
 
 const AuthContext = createContext({
   authorized: false,
@@ -23,7 +23,7 @@ const AuthProvider = ({ children }) => {
     }
   }, [authorized]);
   const signup = async (email, password, role, termsCondition) => {
-    const res = await axiosInstance.post("public/signup", {
+    const res = await api.post("public/signup", {
       email,
       password,
       role,
@@ -37,7 +37,7 @@ const AuthProvider = ({ children }) => {
   };
   const login = async (email, password, role) => {
     try {
-      const res = await axiosInstance.post("public/login", {
+      const res = await api.post("public/login", {
         email,
         password,
         role,
@@ -57,6 +57,7 @@ const AuthProvider = ({ children }) => {
     setJwtToken(null);
     setAuthorized(false);
     localStorage.removeItem("jwtToken");
+    window.location.href = "/";
   };
   return (
     <AuthContext.Provider

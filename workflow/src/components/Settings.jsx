@@ -3,8 +3,8 @@ import { FaUserCog, FaLock, FaBell, FaMoon } from "react-icons/fa";
 
 const Settings = () => {
   const [formData, setFormData] = useState({
-    name: "John Doe",
-    email: "john@example.com",
+    name: "Tom Jerry",
+    email: "tom@example.com",
     currentPassword: "",
     newPassword: "",
     notifications: true,

@@ -40,14 +40,17 @@ const EditEmployee = ({ employee, onClose }) => {
             onChange={handleChange}
             className="p-2 border rounded"
           />
-          <input
-            type="text"
+          <select
             name="role"
-            placeholder="Role"
             value={formData.role || ""}
             onChange={handleChange}
             className="p-2 border rounded"
-          />
+          >
+            <option value="">Select Role</option>
+            <option value="Admin">Admin</option>
+            <option value="User">User</option>
+            <option value="Intern">Intern</option>
+          </select>
           <input
             type="text"
             name="department"

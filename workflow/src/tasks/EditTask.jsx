@@ -1,103 +1,81 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useTask } from "../store/task-store";
 
-const EditTask = ({ task, onClose, onUpdate }) => {
+const EditTask = ({ task, onClose }) => {
   const [formData, setFormData] = useState({
-    title: "",
-    description: "",
-    deadline: "",
-    status: "Pending",
-    index: null,
+    id: task.id,
+    title: task.title,
+    description: task.description,
+    deadline: task.deadline,
+    status: task.status,
+    index: task.index,
   });
-
-  useEffect(() => {
-    if (task) {
-      setFormData({
-        title: task.title,
-        description: task.description,
-        deadline: task.deadline,
-        status: task.status || "Pending",
-        index: task.index,
-      });
-    }
-  }, [task]);
-
+  const { updateTask } = useTask();
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.title || !formData.description || !formData.deadline) {
-      alert("Please fill all fields");
-      return;
-    }
-    onUpdate(formData);
+    const response = await updateTask(task.id, formData);
+    onClose();
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-opacity-30 backdrop-blur-sm flex justify-center items-center">
-      <div className="w-[480px] bg-white p-8 rounded-xl shadow-lg">
-        <h2 className="text-2xl font-semibold text-gray-700 mb-4">Edit Task</h2>
-        <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-          <div>
-            <label className="text-sm text-gray-600">Title</label>
-            <input
-              type="text"
-              name="title"
-              value={formData.title}
-              onChange={handleChange}
-              className="w-full border border-gray-300 rounded-md px-3 py-2"
-            />
-          </div>
-          <div>
-            <label className="text-sm text-gray-600">Description</label>
-            <textarea
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-              className="w-full border border-gray-300 rounded-md px-3 py-2"
-            />
-          </div>
-          <div>
-            <label className="text-sm text-gray-600">Deadline</label>
-            <input
-              type="date"
-              name="deadline"
-              value={formData.deadline}
-              onChange={handleChange}
-              className="w-full border border-gray-300 rounded-md px-3 py-2"
-            />
-          </div>
-          <div>
-            <label className="text-sm text-gray-600">Status</label>
-            <select
-              name="status"
-              value={formData.status}
-              onChange={handleChange}
-              className="w-full border border-gray-300 rounded-md px-3 py-2"
-            >
-              <option value="Pending">Pending</option>
-              <option value="Completed">Completed</option>
-            </select>
-          </div>
+    <div className="fixed inset-0  bg-opacity-30 backdrop-blur-sm flex justify-center items-center z-50">
+      <div className="bg-white rounded-xl shadow-xl p-6 w-[450px]">
+        <h2 className="text-2xl font-bold mb-4 text-blue-600">Edit Task</h2>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <input
+            type="text"
+            name="title"
+            value={formData.title}
+            onChange={handleChange}
+            className="border border-gray-300 p-2 rounded"
+            placeholder="Title"
+            required
+          />
+          <textarea
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            className="border border-gray-300 p-2 rounded h-24"
+            placeholder="Description"
+            required
+          />
+          <input
+            type="date"
+            name="deadline"
+            value={formData.deadline}
+            onChange={handleChange}
+            className="border border-gray-300 p-2 rounded"
+            required
+          />
 
-          <div className="flex justify-between mt-6">
+          <select
+            name="status"
+            value={formData.status}
+            onChange={handleChange}
+            className="border border-gray-300 p-2 rounded"
+            required
+          >
+            <option value="false">Pending</option>
+            <option value="true">Completed</option>
+          </select>
+          <div className="flex justify-end gap-4 mt-2">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 bg-gray-300 text-gray-800 rounded-md"
+              className="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
             >
-              Save Changes
+              Save
             </button>
           </div>
         </form>

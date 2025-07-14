@@ -1,33 +1,39 @@
 import { useState } from "react";
+import { useTask } from "../store/task-store";
+import { useNavigate } from "react-router-dom";
 
-const AddTask = ({ onClose }) => {
+const AddTask = () => {
+  const { addTask } = useTask();
+  const navigate = useNavigate();
   const [taskData, setTaskData] = useState({
     title: "",
     description: "",
     deadline: "",
+    status: false,
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setTaskData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: name === "status" ? value === "true" : value,
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!taskData.title || !taskData.description || !taskData.deadline) {
       alert("Please fill in all fields.");
       return;
     }
-
-    console.log("New Task:", taskData);
-
-    onClose();
+    const response = await addTask(taskData);
+    if (response.status == 200) {
+      navigate(-1);
+    }
   };
-
+  const handleCancel = () => {
+    navigate(-1);
+  };
   return (
     <div className="fixed inset-0 z-50 bg-opacity-50 backdrop-blur-[2px] flex justify-center items-center">
       <div className="bg-white w-[480px] p-6 rounded-xl shadow-xl relative">
@@ -76,7 +82,7 @@ const AddTask = ({ onClose }) => {
             <button
               type="button"
               className="px-4 py-2 rounded-lg border text-gray-600 hover:bg-gray-100"
-              onClick={onClose}
+              onClick={handleCancel}
             >
               Cancel
             </button>

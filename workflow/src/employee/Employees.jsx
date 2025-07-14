@@ -68,8 +68,8 @@ const Employees = () => {
           </div>
         </div>
 
-        <div className="w-4/5 m-16 bg-white border-0 rounded-2xl px-8 py-4">
-          <div className="grid grid-cols-6 gap-4 text-gray-500 font-semibold mb-2">
+        <div className="w-auto m-16 bg-white border-0 rounded-2xl px-8 py-4">
+          <div className="grid grid-cols-6 justify-items-stretch gap-4 text-gray-500 font-semibold mb-4">
             <p>Name</p>
             <p>Email</p>
             <p>Role</p>
@@ -81,7 +81,7 @@ const Employees = () => {
           {emp.map((x) => (
             <div
               key={x.id}
-              className="grid grid-cols-6 gap-4 items-center text-gray-900 mb-2"
+              className="grid grid-cols-6 justify-items-start gap-4  font-semibold mb-2"
             >
               <p>{x.name}</p>
               <p>{x.email}</p>

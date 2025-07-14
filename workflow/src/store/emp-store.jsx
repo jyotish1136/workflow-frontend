@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import axiosInstance from "../api/axiosInstance";
+import api from "../api/axiosInstance";
 import { useAuth } from "./auth-store.jsx";
 
 const EmployeeContext = createContext({
@@ -22,11 +22,7 @@ const EmployeeProvider = ({ children }) => {
   }, [authorized]);
   const getEmployee = async () => {
     try {
-      const response = await axiosInstance.get("/employees", {
-        headers: {
-          Authorization: `Bearer ${jwtToken}`,
-        },
-      });
+      const response = await api.get("/employees");
       setEmployee(response.data);
     } catch (error) {
       console.error("Failed to fetch employees:", error);
@@ -40,21 +36,13 @@ const EmployeeProvider = ({ children }) => {
 
   const addEmployee = async (newEmp) => {
     try {
-      const response = await axiosInstance.post(
-        "/employees",
-        {
-          name: newEmp.name,
-          email: newEmp.email,
-          role: newEmp.role,
-          department: newEmp.department,
-          status: newEmp.status,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${jwtToken}`,
-          },
-        }
-      );
+      const response = await api.post("/employees", {
+        name: newEmp.name,
+        email: newEmp.email,
+        role: newEmp.role,
+        department: newEmp.department,
+        status: newEmp.status,
+      });
       if (response.status == 200) {
         setEmployee((prev) => [...prev, response.data]);
         return response;
@@ -66,22 +54,14 @@ const EmployeeProvider = ({ children }) => {
 
   const updateEmployee = async (id, updatedEmp) => {
     try {
-      const response = await axiosInstance.put(
-        "/employees",
-        {
-          id: id,
-          name: updatedEmp.name,
-          email: updatedEmp.email,
-          role: updatedEmp.role,
-          department: updatedEmp.department,
-          status: updatedEmp.status,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${jwtToken}`,
-          },
-        }
-      );
+      const response = await api.put("/employees", {
+        id: id,
+        name: updatedEmp.name,
+        email: updatedEmp.email,
+        role: updatedEmp.role,
+        department: updatedEmp.department,
+        status: updatedEmp.status,
+      });
       setEmployee((prev) =>
         prev.map((emp) => (emp.id === id ? response.data : emp))
       );
@@ -92,11 +72,7 @@ const EmployeeProvider = ({ children }) => {
 
   const deleteEmployee = async (id) => {
     try {
-      await axiosInstance.delete(`/employees/delete/${id}`, {
-        headers: {
-          Authorization: `Bearer ${jwtToken}`,
-        },
-      });
+      await api.delete(`/employees/delete/${id}`);
       setEmployee((prev) => prev.filter((emp) => emp.id !== id));
     } catch (error) {
       console.error("Failed to delete employee:", error);

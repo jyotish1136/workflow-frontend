@@ -80,14 +80,6 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            <Route
-              path="edit-employee"
-              element={
-                <ProtectedRoute>
-                  <EditEmployee />
-                </ProtectedRoute>
-              }
-            />
           </Route>
           <Route path="*" element={<NoPageFound />} />
         </Routes>

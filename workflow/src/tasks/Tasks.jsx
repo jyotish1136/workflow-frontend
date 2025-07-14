@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
-import AddTask from "./AddTask";
 import EditTask from "./EditTask";
 import SearchBox from "../components/SearchBox";
 import { FaRegEdit, FaTrashAlt, FaCheckCircle, FaClock } from "react-icons/fa";
 import { AiOutlineFileAdd } from "react-icons/ai";
+import { useTask } from "../store/task-store";
+import { Link, Outlet } from "react-router-dom";
 
 const Tasks = () => {
   const [showAddModal, setShowAddModal] = useState(false);
@@ -11,70 +12,21 @@ const Tasks = () => {
   const [selectedTask, setSelectedTask] = useState(null);
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState("All");
+  const { tasks, deleteTask } = useTask();
 
-  const [tasks, setTasks] = useState([
-    {
-      title: "Design Homepage",
-      description: "Create responsive homepage layout with Tailwind.",
-      deadline: "2025-07-15",
-      status: "pending",
-    },
-    {
-      title: "Backend Integration",
-      description: "Connect frontend to Spring Boot API.",
-      deadline: "2025-07-17",
-      status: "completed",
-    },
-  ]);
-
-  const handleAddTask = (newTask) => {
-    setTasks((prev) => [...prev, newTask]);
-    setShowAddModal(false);
-  };
-
-  const handleEditClick = (task, index) => {
-    setSelectedTask({ ...task, index });
+  const handleEditClick = (task) => {
+    setSelectedTask(task);
     setShowEditModal(true);
   };
 
-  const handleUpdateTask = (updatedTask) => {
-    const updated = [...tasks];
-    updated[updatedTask.index] = {
-      title: updatedTask.title,
-      description: updatedTask.description,
-      deadline: updatedTask.deadline,
-      status: updatedTask.status,
-    };
-    setTasks(updated);
-    setShowEditModal(false);
+  const handleDeleteTask = async (id) => {
+    const response = await deleteTask(id);
   };
-
-  const handleDeleteTask = (index) => {
-    const filtered = tasks.filter((_, i) => i !== index);
-    setTasks(filtered);
-  };
-
-  const filteredTasks = tasks
-    .filter(
-      (t) =>
-        t.title.toLowerCase().includes(search.toLowerCase()) ||
-        t.description.toLowerCase().includes(search.toLowerCase())
-    )
-    .filter((t) =>
-      sortBy === "All" ? true : t.status === sortBy.toLowerCase()
-    );
-
   return (
     <>
-      {showAddModal && (
-        <AddTask onClose={() => setShowAddModal(false)} onAdd={handleAddTask} />
-      )}
+      <Outlet />
       {showEditModal && selectedTask && (
-        <EditTask
-          task={selectedTask}
-          onClose={() => setShowEditModal(false)}
-          onUpdate={handleUpdateTask}
-        />
+        <EditTask task={selectedTask} onClose={() => setShowEditModal(false)} />
       )}
 
       <div
@@ -84,12 +36,12 @@ const Tasks = () => {
       >
         <h1 className="text-2xl font-bold text-blue-600 ml-16 mb-6">Tasks</h1>
         <div className="flex flex-wrap justify-center items-center gap-4 mb-6">
-          <button
-            onClick={() => setShowAddModal(true)}
+          <Link
+            to="add-task"
             className="flex items-center gap-2 px-5 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700 hover:cursor-pointer"
           >
             <AiOutlineFileAdd /> Add Task
-          </button>
+          </Link>
           <SearchBox
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -113,7 +65,8 @@ const Tasks = () => {
           </button>
         </div>
         <div className="w-4/5 m-auto bg-white border-0 rounded-2xl px-8 py-4">
-          <div className="grid grid-cols-5 gap-4 text-gray-500 font-semibold mb-4 border-b pb-2">
+          <div className="grid grid-cols-6 gap-2 text-gray-500 font-semibold mb-4 border-b pb-2">
+            <p>Sl. No.</p>
             <p>Title</p>
             <p>Description</p>
             <p>Deadline</p>
@@ -121,14 +74,15 @@ const Tasks = () => {
             <p>Actions</p>
           </div>
 
-          {filteredTasks.length === 0 ? (
+          {tasks.length === 0 ? (
             <p className="text-center text-gray-400 mt-6">No tasks found</p>
           ) : (
-            filteredTasks.map((task, index) => (
+            tasks.map((task, index) => (
               <div
-                key={index}
-                className="grid grid-cols-5 gap-4 items-start text-gray-900 mb-6 border-b pb-4"
+                key={task.id}
+                className="grid grid-cols-6 gap-2 items-start text-gray-900 mb-6 border-b pb-4"
               >
+                <p className="font-medium">{index + 1}</p>
                 <p className="font-medium">{task.title}</p>
                 <p className="whitespace-pre-line break-words max-h-32 overflow-auto">
                   {task.description}
@@ -137,28 +91,32 @@ const Tasks = () => {
 
                 <p
                   className={`w-[110px] px-2 py-1 text-sm rounded-md flex items-center justify-center gap-1 ${
-                    task.status === "completed"
+                    task.status
                       ? "bg-green-100 text-green-800 border border-green-300"
                       : "bg-yellow-100 text-yellow-800 border border-yellow-300"
                   }`}
                 >
-                  {task.status === "completed" ? (
-                    <FaCheckCircle />
+                  {task.status ? (
+                    <>
+                      <FaCheckCircle /> <span>Completed</span>
+                    </>
                   ) : (
-                    <FaClock />
+                    <>
+                      <FaClock />
+                      <span>Pending</span>
+                    </>
                   )}
-                  {task.status.charAt(0).toUpperCase() + task.status.slice(1)}
                 </p>
 
                 <div className="flex items-center gap-3">
                   <FaRegEdit
                     className="w-5 h-5 mt-1 cursor-pointer text-blue-600 hover:text-blue-800"
-                    onClick={() => handleEditClick(task, index)}
+                    onClick={() => handleEditClick(task)}
                   />
 
                   <FaTrashAlt
                     className="w-5 h-5 mt-1 cursor-pointer text-red-600 hover:text-red-800"
-                    onClick={() => handleDeleteTask(index)}
+                    onClick={() => handleDeleteTask(task.id)}
                   />
                 </div>
               </div>

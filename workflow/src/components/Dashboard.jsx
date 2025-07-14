@@ -4,8 +4,10 @@ import { PiStudentFill } from "react-icons/pi";
 import Calendar from "./Calendar";
 import BarChart from "./BarChart";
 import { useEmp } from "../store/emp-store";
+import { useTask } from "../store/task-store";
 const Dashboard = () => {
   const { employee } = useEmp();
+  const { tasks } = useTask();
   return (
     <div className="w-full flex flex-col items-center bg-blue-200 ">
       <div className="h-1/4 flex gap-6 mt-14">
@@ -29,7 +31,9 @@ const Dashboard = () => {
         <div className="w-80 h-36 border-0 gap-13 rounded-3xl bg-white flex justify-center items-center">
           <div className="flex gap-3 flex-col items-start pl-2">
             <p className="text-[16px] text-gray-500 font-sans">Active Tasks</p>
-            <p className="text-5xl text-blue-500 font-bold font-sans">82</p>
+            <p className="text-5xl text-blue-500 font-bold font-sans">
+              {tasks.length}
+            </p>
             <div className="flex gap-2 text-red-500 items-center">
               <FaArrowDown className="text-2xl" />
               <p className="font-sans ">3% from last month</p>

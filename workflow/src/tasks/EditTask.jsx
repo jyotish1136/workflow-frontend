@@ -47,9 +47,9 @@ const EditTask = ({ task, onClose }) => {
           <input
             type="date"
             name="deadline"
-            value={formData.deadline}
+            value={formData.deadline || ""}
             onChange={handleChange}
-            className="border border-gray-300 p-2 rounded"
+            className="border border-gray-300 bg-white p-4 rounded z-50"
             required
           />
 

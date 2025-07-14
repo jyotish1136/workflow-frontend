@@ -72,9 +72,9 @@ const AddTask = () => {
             <input
               type="date"
               name="deadline"
-              value={taskData.deadline}
+              value={taskData.deadline || ""}
               onChange={handleChange}
-              className="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-blue-400"
+              className="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-blue-400 bg-white p-4 z-50"
             />
           </div>
 

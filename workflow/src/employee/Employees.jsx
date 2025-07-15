@@ -3,12 +3,15 @@ import { BsPersonAdd } from "react-icons/bs";
 import { FaRegEdit } from "react-icons/fa";
 import SearchBox from "../components/SearchBox";
 import { AiOutlineDelete } from "react-icons/ai";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useEmp } from "../store/emp-store";
 import EditEmployee from "./EditEmployee";
+import Button from "../components/Button";
+import PageTitle from "../components/PageTitle";
 
 const Employees = () => {
   const { employee, deleteEmployee } = useEmp();
+  const navigate = useNavigate();
   const [emp, setEmp] = useState([]);
   const [editingEmployee, setEditingEmployee] = useState(null);
 
@@ -40,21 +43,19 @@ const Employees = () => {
       )}
 
       <div
-        className={`w-full bg-blue-200 ${
+        className={`w-full bg-blue-200 pt-16 ${
           editingEmployee ? "blur-sm pointer-events-none" : ""
         }`}
       >
-        <h1 className="text-2xl font-bold text-blue-500 mt-12 ml-16">
-          Employees
-        </h1>
+        <PageTitle pageTitle={"Employees"} />
         <div className="flex justify-center items-center gap-4">
-          <Link
-            to="add-employee"
-            className="flex justify-center items-center gap-2 border-0 w-[216px] h-[38px] rounded-[8px]  bg-blue-500 text-white"
+          <Button
+            onClick={() => navigate("add-employee")}
+            variant={"primary"}
+            icon={BsPersonAdd}
           >
-            <BsPersonAdd />
-            <p>Add new employee</p>
-          </Link>
+            Add new employee
+          </Button>
           <SearchBox />
           <div className="flex justify-center items-center gap-2 border-0 w-[216px] h-[38px] rounded-[8px] bg-white">
             <p className="text-gray-500">Sort By:</p>
@@ -63,9 +64,7 @@ const Employees = () => {
               <option value="Department">Department</option>
             </select>
           </div>
-          <div className="flex justify-center items-center gap-2 border-0 w-[116px] h-[38px] rounded-[8px] bg-blue-500 text-white">
-            <button type="button">Export</button>
-          </div>
+          <Button variant={"primary"}>Export</Button>
         </div>
 
         <div className="w-auto m-16 bg-white border-0 rounded-2xl px-8 py-4">

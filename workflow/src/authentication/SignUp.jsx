@@ -1,12 +1,16 @@
 import Contact from "../components/Contact";
-import LoginButton from "../components/LoginButton";
 import DarkLogo from "../components/DarkLogo";
 import { HiOutlineMail } from "react-icons/hi";
 import { useState } from "react";
 import { useAuth } from "../store/auth-store";
+import Button from "../components/Button";
+import { useNavigate } from "react-router-dom";
+import InputField from "../components/InputField";
 
 const SignUp = () => {
   const { signup } = useAuth();
+  const navigate = useNavigate();
+
   const [emailError, setEmailError] = useState("");
 
   const [formData, setFormData] = useState({
@@ -73,51 +77,48 @@ const SignUp = () => {
   };
 
   return (
-    <div className="min-h-screen w-screen flex flex-col fixed inset-0 bg-blue backdrop-blur-[3px] z-40">
-      <div className="w-7/12 min-h-2/3 bg-white border-0 rounded-2xl flex flex-col m-auto">
-        <DarkLogo />
-        <div className="w-full flex justify-center items-center gap-6 mt-6 mb-6">
+    <div className="min-h-screen w-screen flex flex-col fixed inset-0 bg-blue backdrop-blur-[3px] z-40 p-4 sm:p-6">
+      <div className="w-full max-w-6xl min-h-[70vh] bg-white rounded-2xl flex flex-col lg:flex-row m-auto">
+        <div className="w-full lg:w-7/12 h-full flex flex-col items-center px-4 sm:px-6 py-6">
+          <div className="w-full flex justify-center mb-4">
+            <DarkLogo />
+          </div>
+
           <form
             onSubmit={handleSubmit}
-            className="h-4/5 bg-white font-sans flex justify-center items-center flex-col gap-4"
+            className="w-full sm:w-4/5 font-sans flex flex-col items-center gap-4"
           >
-            <div className="flex flex-col gap-4">
-              <section>Email</section>
-              <input
+            <div className="w-full flex flex-col gap-4">
+              <InputField
+                label="Email"
                 type="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-96 h-8 pl-3 border-2 border-gray-400 rounded-[6px] mt-1"
                 placeholder="Email"
+                error={emailError}
               />
-              {emailError && (
-                <span className="text-red-500 text-sm">{emailError}</span>
-              )}
-
-              <section>Password</section>
-              <input
+              <InputField
+                label="Password"
                 type="password"
                 name="firstPassword"
                 value={formData.firstPassword}
                 onChange={handleChange}
-                className="w-96 h-8 pl-3 border-2 border-gray-400 rounded-[6px] mt-1"
                 placeholder="Password"
               />
-              <section>Confirm Password</section>
-              <input
+              <InputField
+                label="Confirm Password"
                 type="password"
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                className="w-96 h-8 pl-3 border-2 border-gray-400 rounded-[6px] mt-1"
                 placeholder="Confirm Password"
               />
             </div>
 
-            <div className="w-full flex justify-between items-center mt-4 px-6">
+            <div className="w-full flex flex-col sm:flex-row justify-between items-start sm:items-center mt-4 px-2 sm:px-6 gap-2">
               <section className="text-gray-700 font-semibold">Role</section>
-              <div className="flex space-x-4">
+              <div className="flex flex-wrap space-x-4">
                 {["admin", "intern", "user"].map((role) => (
                   <label
                     key={role}
@@ -139,7 +140,7 @@ const SignUp = () => {
               </div>
             </div>
 
-            <label className="flex cursor-pointer items-start mt-4">
+            <label className="flex cursor-pointer items-start mt-4 w-full px-2 sm:px-6">
               <input
                 type="checkbox"
                 name="acceptedTerms"
@@ -157,33 +158,37 @@ const SignUp = () => {
               </div>
             </label>
 
-            <button
-              type="submit"
-              className="mt-4 flex justify-center items-center gap-2 border-0 p-3 h-[38px] font-medium rounded-[8px] bg-blue-500 text-white cursor-pointer"
-            >
-              <HiOutlineMail />
-              <span className="pb-1">Sign Up with email</span>
-            </button>
+            <Button type="submit" variant="primary">
+              SignUp
+            </Button>
           </form>
+        </div>
 
-          <div className="w-[2px] h-full bg-gray-400 border-0 rounded-2xl">
-            <div className="w-40 h-40 bg-red-500 rounded-full blur-[100px] opacity-40 z-0 mt-15"></div>
+        <div className="hidden lg:flex justify-center items-center">
+          <div className="w-[2px] h-4/5 bg-gray-400 rounded-2xl relative">
+            <div className="w-40 h-40 bg-red-500 rounded-full blur-[100px] opacity-40 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
           </div>
+        </div>
 
-          <div className="w-2/5 bg-white h-4/5 font-sans flex justify-center items-center flex-col">
-            <div className="mt-4 flex justify-between items-center flex-col gap-2">
-              <span className="text-gray-400 text-[12px]">
-                Already have an account?
-              </span>
-              <LoginButton />
-            </div>
-            <div className="w-full flex justify-center items-center gap-1 mt-3">
-              <div className="w-1/3 h-[1px] border-0 rounded-2xl bg-gray-300"></div>
-              <span>Or,</span>
-              <div className="w-1/3 h-[1px] border-0 rounded-2xl bg-gray-300"></div>
-            </div>
-            <Contact />
+        <div className="w-full max-w-sm lg:w-2/5 h-auto font-sans flex flex-col justify-center items-center px-4 sm:px-6 py-6">
+          <div className="mt-4 flex flex-col justify-center items-center gap-2">
+            <span className="text-gray-400 text-[12px]">
+              Already have an account?
+            </span>
+            <Button
+              onClick={() => navigate("/")}
+              disabled={false}
+              variant="primary"
+            >
+              Login
+            </Button>
           </div>
+          <div className="w-full flex justify-center items-center gap-1 mt-3">
+            <div className="w-1/3 h-[1px] border-0 rounded-2xl bg-gray-300"></div>
+            <span>Or,</span>
+            <div className="w-1/3 h-[1px] border-0 rounded-2xl bg-gray-300"></div>
+          </div>
+          <Contact />
         </div>
       </div>
     </div>

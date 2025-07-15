@@ -1,5 +1,8 @@
 import { useState } from "react";
 import { useTask } from "../store/task-store";
+import Button from "../components/Button";
+import InputField from "../components/InputField";
+import SelectField from "../components/SelectField";
 
 const EditTask = ({ task, onClose }) => {
   const [formData, setFormData] = useState({
@@ -27,12 +30,12 @@ const EditTask = ({ task, onClose }) => {
       <div className="bg-white rounded-xl shadow-xl p-6 w-[450px]">
         <h2 className="text-2xl font-bold mb-4 text-blue-600">Edit Task</h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <input
-            type="text"
-            name="title"
+          <InputField
+            label={"Title"}
+            type={"text"}
+            name={"title"}
             value={formData.title}
             onChange={handleChange}
-            className="border border-gray-300 p-2 rounded"
             placeholder="Title"
             required
           />
@@ -44,39 +47,31 @@ const EditTask = ({ task, onClose }) => {
             placeholder="Description"
             required
           />
-          <input
-            type="date"
-            name="deadline"
+          <InputField
+            type={"date"}
+            name={"deadline"}
             value={formData.deadline || ""}
             onChange={handleChange}
-            className="border border-gray-300 bg-white p-4 rounded z-50"
             required
           />
 
-          <select
-            name="status"
+          <SelectField
+            name={"status"}
             value={formData.status}
             onChange={handleChange}
-            className="border border-gray-300 p-2 rounded"
+            options={["Pending", "Completed"]}
             required
           >
             <option value="false">Pending</option>
             <option value="true">Completed</option>
-          </select>
+          </SelectField>
           <div className="flex justify-end gap-4 mt-2">
-            <button
-              type="button"
-              onClick={onClose}
-              className="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400"
-            >
+            <Button type={"button"} variant={"danger"} onClick={onClose}>
               Cancel
-            </button>
-            <button
-              type="submit"
-              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-            >
+            </Button>
+            <Button type={"submit"} variant={"primary"}>
               Save
-            </button>
+            </Button>
           </div>
         </form>
       </div>

@@ -4,7 +4,9 @@ import SearchBox from "../components/SearchBox";
 import { FaRegEdit, FaTrashAlt, FaCheckCircle, FaClock } from "react-icons/fa";
 import { AiOutlineFileAdd } from "react-icons/ai";
 import { useTask } from "../store/task-store";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
+import Button from "../components/Button";
+import PageTitle from "../components/PageTitle";
 
 const Tasks = () => {
   const [showAddModal, setShowAddModal] = useState(false);
@@ -13,6 +15,7 @@ const Tasks = () => {
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState("All");
   const { tasks, deleteTask } = useTask();
+  const navigate = useNavigate();
 
   const handleEditClick = (task) => {
     setSelectedTask(task);
@@ -34,14 +37,15 @@ const Tasks = () => {
           showAddModal || showEditModal ? "blur-sm pointer-events-none" : ""
         }`}
       >
-        <h1 className="text-2xl font-bold text-blue-600 ml-16 mb-6">Tasks</h1>
+        <PageTitle pageTitle={"Tasks"} />
         <div className="flex flex-wrap justify-center items-center gap-4 mb-6">
-          <Link
-            to="add-task"
-            className="flex items-center gap-2 px-5 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700 hover:cursor-pointer"
+          <Button
+            onClick={() => navigate("add-task")}
+            variant={"primary"}
+            icon={AiOutlineFileAdd}
           >
-            <AiOutlineFileAdd /> Add Task
-          </Link>
+            Add Task
+          </Button>
           <SearchBox
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -60,9 +64,9 @@ const Tasks = () => {
             </select>
           </div>
 
-          <button className="px-5 py-2 rounded-lg border border-blue-300 bg-blue-500 hover:bg-blue-700 font-semibold text-white">
+          <Button type={"button"} variant={"primary"}>
             Export
-          </button>
+          </Button>
         </div>
         <div className="w-4/5 m-auto bg-white border-0 rounded-2xl px-8 py-4">
           <div className="grid grid-cols-6 gap-2 text-gray-500 font-semibold mb-4 border-b pb-2">
@@ -91,12 +95,12 @@ const Tasks = () => {
 
                 <p
                   className={`w-[110px] px-2 py-1 text-sm rounded-md flex items-center justify-center gap-1 ${
-                    task.status
+                    task.status == "Completed"
                       ? "bg-green-100 text-green-800 border border-green-300"
                       : "bg-yellow-100 text-yellow-800 border border-yellow-300"
                   }`}
                 >
-                  {task.status ? (
+                  {task.status == "Completed" ? (
                     <>
                       <FaCheckCircle /> <span>Completed</span>
                     </>
